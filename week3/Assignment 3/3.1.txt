@@ -1,0 +1,2 @@
+O(2^10) < O(2^logn) < O(3n+100logn) < O(4n) < O(nlogn)
+ < O(4nlogn+2n) < O(n^2+10n) < O(n^3) < O(2^n)

@@ -1,0 +1,27 @@
+const int MAX_SIZE = 100
+
+struct Stack {
+    istack[]: arr of integer
+    top = -1
+    
+    FUNC isEmpty(): bool
+        if (top == -1) return true						O(1)
+        else return false
+    
+    FUNC push(int x):
+        if (top == MAX_SIZE-1)
+            print("Stack is full! Cannot push!\n")				O(1)
+        else:
+            top++
+            istack[top] = x
+       
+    FUNC pop():
+        if (isEmpty()) print("Stack is empty! Cannot pop!\n")			O(1)
+        else top--    
+    
+    FUNC print():
+        if (isEmpty()) print("Empty stack!")					O(n)
+        else:
+            for (int i = 0; i <= top; i++)
+                print(istack[i], ' ')     
+}

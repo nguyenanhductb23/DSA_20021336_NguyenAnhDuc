@@ -1,0 +1,28 @@
+struct Stack {
+ Node* head
+
+ FUNC push:
+   tmp = new Node(data)
+   if (head == NULL):
+      head = temp				  O(1)
+   else:
+      tmp->next = head
+      head = tmp
+   return head
+  /* Nếu đỉnh stack là cuối linked-list thì độ phức tạp O(n)*/
+
+
+ FUNC pop:
+   if (!head): 
+      Print("Không xoá được")                     O(1)
+   else 
+      head = head->next
+   return head
+ /* Nếu đỉnh stack là cuối linked-list thì độ phức tạp O(n)*/
+
+ FUNC print:
+   tmp = head
+   while (tmp):
+      print(tmp->data, ' ')			  O(n)
+      tmp = tmp->next
+}

@@ -1,0 +1,16 @@
+Function pow(int n):
+    int ans = 1;
+    for i = 1 to n:
+        ans = ans * 2;
+    return ans;
+    
+-> Complexity: O(n)
+
+-----------------------
+
+Function pow(int n):
+    if n == 0:
+        return 1;
+    return 2 * pow(n-1);
+    
+-> Complexity: O(n) (since T(n) = 1 + T(n-1))

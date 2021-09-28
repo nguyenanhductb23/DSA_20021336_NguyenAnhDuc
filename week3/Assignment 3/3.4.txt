@@ -1,0 +1,25 @@
+struct Queue {
+ Node* head
+
+ FUNC enqueue:
+   tmp = head
+   while (tmp->next != NULL):			  O(n)
+      tmp = tmp->next
+   tmp->next = new Node(data)
+   return head
+
+
+ FUNC dequeue:
+   if (!head): 
+      Print("Không xoá được")                     O(1)
+   else 
+      head = head->next
+   return head
+
+
+  FUNC print:
+   tmp = head
+   while (tmp):
+      print(tmp->data, ' ')			  O(n)
+      tmp = tmp->next
+}

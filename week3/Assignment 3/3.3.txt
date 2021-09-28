@@ -1,0 +1,33 @@
+const int MAX_SIZE = 100
+
+struct Queue {
+    iqueue[MAX_SIZE]: arr of integer
+    front = 0, rear = -1
+    
+    FUNC isEmpty(): 
+        if (front > rear): 							        O(1)
+            return true
+        return false
+   
+    FUNC enqueue(int x):
+        if (rear == MAX_SIZE-1): 
+            print("Queue is full! Cannot enqueue!\n")					 O(1)
+    	else:
+    	    rear++
+            iqueue[rear] = x
+
+    FUNC dequeue():
+        if (isEmpty()) print("Queue is empty! Cannot dequeue!\n")                        O(n)
+        else:
+            for (int i = 0; i < rear; i++):
+                iqueue[i] = iqueue[i+1]
+            rear--
+
+    FUNC print():
+        if (isEmpty()):
+            print("Empty queue!")
+        else:  
+            for (int i = front; i <= rear; i++):                                         O(n)
+                print(iqueue[i], ' ')
+}
+
