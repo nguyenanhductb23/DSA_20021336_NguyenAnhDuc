@@ -25,7 +25,7 @@ vector<int> closestNumbers(vector<int> arr) {
 
 
 vector<int> closestNumbers(vector<int> arr) {
-    sort(arr.begin(), arr.end());
+    sort(arr.begin(), arr.end());	// => O(nlogn)
     int n = arr.size();
     int mi = abs(arr[1] - arr[0]);
     vector<int> vt(0);
@@ -37,13 +37,13 @@ vector<int> closestNumbers(vector<int> arr) {
         }   
         if (diff < mi) {
             mi = diff;
-            vt.clear();
+            vector<int> v(0);
+            vt = v;
             vt.push_back(arr[i]);
             vt.push_back(arr[i+1]);
         }
     }
-    sort(vt.begin(), vt.end());
     return vt;    
 }
 
-=> O(n^2)
+=> O(nlogn)
