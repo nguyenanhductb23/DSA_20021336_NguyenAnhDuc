@@ -11,7 +11,7 @@ vector<int> closestNumbers(vector<int> arr) {
             }   
             if (diff < mi) {
                 mi = diff;
-                vt.clear();	// => O(n)
+                vt.clear();	// => O(1)
                 vt.push_back(arr[i]);
                 vt.push_back(arr[j]);
             }
@@ -21,7 +21,7 @@ vector<int> closestNumbers(vector<int> arr) {
     return vt;    
 }
 
-=> O(n^3)
+=> O(n^2)
 
 
 vector<int> closestNumbers(vector<int> arr) {
@@ -36,9 +36,7 @@ vector<int> closestNumbers(vector<int> arr) {
             vt.push_back(arr[i+1]);
         }   
         if (diff < mi) {
-            mi = diff;
-            vector<int> v(0);
-            vt = v;
+            vt.clear();
             vt.push_back(arr[i]);
             vt.push_back(arr[i+1]);
         }
