@@ -22,6 +22,25 @@ public:
         this->data = data;
     }
 
+    // Hàm kiểm tra có phải node của cây tìm kiếm nhị phân không
+    bool isBSTNode() {
+        if (numOfChildren() > 2) return false;
+        if (numOfChildren() == 2)
+            if (data < children[0]->data || data > children[1]->data) 
+                return false;
+        return true;
+    }
+
+    // Hàm kiểm tra có phải node của cây max-heap không
+    bool isHeapNode() {
+        if (children.size() == 0) return true;
+        for (int i = 0; i < children.size(); i++) {
+            if (children[i]->data > this->data) return false;
+        }
+        return true;
+    }
+
+
     friend class Tree;
 };
 
