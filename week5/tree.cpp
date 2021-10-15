@@ -29,6 +29,7 @@ public:
         next = NULL;
     }
 
+    // Hàm đếm số node con
     int numOfChildren() {
         int count = 0;
         Node* tmp = firstChild;
@@ -37,6 +38,26 @@ public:
             count++;
         }
         return count;
+    }
+
+    // Hàm kiểm tra có phải node của cây tìm kiếm nhị phân không
+    bool isBSTNode() {
+        if (numOfChildren() > 2) return false;
+        if (numOfChildren() == 2)
+            if (data < firstChild->data || data > firstChild->next->data) 
+                return false;
+        return true;
+    }
+
+    // Hàm kiểm tra có phải node của cây max-heap không
+    bool isHeapNode() {
+        if (!firstChild) return true;
+        Node* tmp = firstChild;
+        while (tmp) {
+            if (tmp->data > this->data) return false;
+            tmp = tmp->next;
+        }
+        return true;
     }
 
     friend class Tree;
@@ -56,6 +77,7 @@ public:
         return root;
     }
 
+    // Các hàm tìm kiếm
     Node* find(Node* node, int data, Node* ans) {
         if (!node) return NULL;
         if (node->data == data) ans = node;
@@ -184,20 +206,14 @@ public:
         if (!root) return false;
         Node* tmp = root;
         while (tmp) {
-            if (tmp->numOfChildren() > 2) return false;
+            if (!(tmp->isBSTNode())) return false;
             while (tmp->firstChild) {
                 tmp = tmp->firstChild;
-                if (tmp->numOfChildren() > 2) return false;
-                if (tmp->numOfChildren() == 2)
-                    if (tmp->data <= tmp->firstChild->data || tmp->data >= tmp->firstChild->next->data) 
-                        return false;
+                if (!(tmp->isBSTNode())) return false;
             }
             if (tmp->next) {
                 tmp = tmp->next;
-                if (tmp->numOfChildren() > 2) return false;
-                if (tmp->numOfChildren() == 2)
-                    if (tmp->data <= tmp->firstChild->data || tmp->data >= tmp->firstChild->next->data) 
-                        return false;
+                if (!(tmp->isBSTNode())) return false;
             }
             if (!(tmp->firstChild)) {
                 while (!(tmp->next) && tmp != root) {
@@ -210,7 +226,26 @@ public:
     }
 
     // Hàm kiểm tra cây max-heap
-    bool isMaxHeapTree();
+    bool isMaxHeapTree() {
+        Node* tmp = root;
+        while (tmp) {
+            while (tmp->firstChild) {
+                tmp = tmp->firstChild;
+                if (!(tmp->isHeapNode())) return false;
+            }
+            if (tmp->next) {
+                tmp = tmp->next;
+                if (!(tmp->isHeapNode())) return false;
+            }
+            if (!(tmp->firstChild)) {
+                while (!(tmp->next) && tmp != root) {
+                    tmp = tmp->fatherNode;
+                }
+                tmp = tmp->next;
+            }
+        }
+        return true;
+    }
 
     // Hàm in ra các Node theo thứ tự inorder nếu là cây nhị phân
     void inorder(Node* node) {
@@ -298,8 +333,10 @@ public:
                 tmp = tmp->next;
                 if (tmp->data > mx) mx = tmp->data;
             }
-            if (!(tmp->firstChild) && tmp->fatherNode) {
-                while (!(tmp->next)) tmp = tmp->fatherNode;
+            if (!(tmp->firstChild)) {
+                while (!(tmp->next) && tmp != root) {
+                    tmp = tmp->fatherNode;
+                }
                 tmp = tmp->next;
             }
         }
@@ -326,7 +363,6 @@ public:
                 }
                 tmp = tmp->next;
             }
-            //if (!tmp || tmp == root) break;
         }
         return mx;
     }
@@ -346,14 +382,18 @@ int main(int argc, char const *argv[]) {
     //cout << tree->depth(29);// << tree->height();
     //tree->preorder(tree->getRoot());
     //cout << '\n' << tree->isBinaryTree();
+    //cout << tree->findMax() << ' ' << tree->findMaxChild();
 
     // Tạo ra một cây thoả mãn tính chất là Binary Search Tree và test lại
     Tree* tr = new Tree();
     int pa[] = {1, 1, 2, 2, 5, 7, 8, 8, 3, 6, 3};
     int va[] = {2, 3, 4, 5, 7, 8, 9, 10, 6, 11, 12};
     for (int i = 0; i < 11; i++) tr->insert(pa[i], va[i]);
-    tr->inorder(tr->getRoot());
+    //tr->inorder(tr->getRoot());
     
     // Tạo ra một cây thoả mãn tính chất là Max Heap Tree và test lại
+    Tree* heaptree = new Tree();
+    for (int i = 0; i < 11; i++) heaptree->insert(20-par[i], 20-val[i]);
+    cout << heaptree->isMaxHeapTree();
     return 0;
 }
