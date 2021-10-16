@@ -22,25 +22,6 @@ public:
         this->data = data;
     }
 
-    // Hàm kiểm tra có phải node của cây tìm kiếm nhị phân không
-    bool isBSTNode() {
-        if (numOfChildren() > 2) return false;
-        if (numOfChildren() == 2)
-            if (data < children[0]->data || data > children[1]->data) 
-                return false;
-        return true;
-    }
-
-    // Hàm kiểm tra có phải node của cây max-heap không
-    bool isHeapNode() {
-        if (children.size() == 0) return true;
-        for (int i = 0; i < children.size(); i++) {
-            if (children[i]->data > this->data) return false;
-        }
-        return true;
-    }
-
-
     friend class Tree;
 };
 
@@ -50,9 +31,7 @@ class Tree {
     vector<Node*> nodes;
 
 public:
-    Tree() {
-        // ...
-    }
+    Tree() {}
     // Các hàm khởi tạo khác nếu cần thiết
 
     vector<Node*> getNodes() {
@@ -89,7 +68,26 @@ public:
     // Nếu không phải Node lá xoá Node đó và toàn bộ các Node con của nó
     // Hàm trả về số lượng Node đã xoá
     // Nếu Node data không tồn tại trả về 0 (zero)
-    int remove(int data);
+    int remove(int data) {
+        Node* r_node = find(data);
+        if (!r_node) return 0;
+        vector<Node*> vt = r_node->parent->children;
+        for (int i = 0; i < vt.size(); i++)
+            if (vt[i]->data == data) vt.erase(vt.begin()+i);
+        int count = 0;
+        remove(r_node, count);
+        return count;
+    }
+
+    void remove(Node* node, int &count) {
+        if (!node) return;
+        vector<Node*> vt = node->children;
+        for (int i = 0; i < vt.size(); i++)
+            remove(vt[i], count);
+        delete node;
+        node = NULL;
+        count++;
+    }
 
     // Hàm in ra các Node theo thứ tự preorder
     //Để duyệt toàn bộ cây, node truyền vào phải là root
@@ -119,10 +117,27 @@ public:
     }
 
     // Hàm kiểm tra cây tìm kiếm nhị phân
-    bool isBinarySearchTree();
+    bool isBinarySearchTree() {
+        for (int i = 0; i < nodes.size(); i++) {
+            vector<Node*> vt = nodes[i]->children;
+            if (vt.size() > 2) return false;
+            if (vt.size() == 2) {
+                if (vt[0]->data > nodes[i]->data) return false;
+                if (vt[1]->data < nodes[i]->data) return false;
+            }
+        }
+        return true;
+    }
 
     // Hàm kiểm tra cây max-heap
-    bool isMaxHeapTree();
+    bool isMaxHeapTree() {
+        for (int i = 0; i < nodes.size(); i++) {
+            vector<Node*> vt = nodes[i]->children;
+            for (int j = 0; j < vt.size(); j++)
+                if (vt[j]->data > nodes[i]->data) return false;
+        }
+        return true;
+    }
 
     // Hàm in ra các Node theo thứ tự inorder nếu là cây nhị phân
     void inorder() {
@@ -177,10 +192,20 @@ public:
     }
 
     // Hàm trả về Node có giá trị lớn nhất
-    int findMax();
+    int findMax() {
+        int mx = nodes[0]->data;
+        for (int i = 1; i < nodes.size(); i++)
+            if (nodes[i]->data > mx) mx = nodes[i]->data;
+        return mx;
+    }
 
     // Hàm trả về Node có nhiều con nhất
-    int findMaxChild();
+    int findMaxChild() {
+        int mx = nodes[0]->children.size();
+        for (int i = 1; i < nodes.size(); i++)
+            if (nodes[i]->children.size() > mx) mx = nodes[i]->children.size();
+        return mx;
+    }
 };
 
 int main(int argc, char const *argv[]) {
@@ -193,10 +218,10 @@ int main(int argc, char const *argv[]) {
     for (int i = 20; i <= 30; i++) tree->insert(i-3, i);
     // Test thử các hàm của lớp cây
     tree->preorder(tree->getNodes()[0]);
-    //cout << endl << tree->remove(3) << endl;
-    cout << endl << tree->depth(29) << endl << tree->height() << endl << tree->numOfLeaves();
-    //tree->preorder(tree->getRoot());
-    //cout << '\n' << tree->isBinaryTree();
+    cout << endl << tree->remove(3) << endl;
+    //cout << endl << tree->depth(29) << endl << tree->height() << endl << tree->numOfLeaves();
+    tree->preorder(tree->getNodes()[0]);
+    cout << '\n' << tree->isBinaryTree();
 
     // Tạo ra một cây thoả mãn tính chất là Binary Search Tree và test lại
     //tree->inorder();

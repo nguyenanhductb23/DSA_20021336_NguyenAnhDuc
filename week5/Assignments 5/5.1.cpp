@@ -18,7 +18,7 @@ public:
     }
 };
 
-class Tree : public Node {
+class Tree : Node {
     vector<Node*> nodes;
 
 public:

@@ -127,7 +127,8 @@ public:
             while (tmp->next) {
                 if (tmp->data == data) return false;
                 tmp = tmp->next;
-            } 
+            }
+            if (tmp->data == data) return false;
             tmp->next = n_node;
         }
         return true;
@@ -382,7 +383,7 @@ int main(int argc, char const *argv[]) {
     //cout << tree->depth(29);// << tree->height();
     //tree->preorder(tree->getRoot());
     //cout << '\n' << tree->isBinaryTree();
-    //cout << tree->findMax() << ' ' << tree->findMaxChild();
+    cout << tree->findMax() << ' ' << tree->findMaxChild();
 
     // Tạo ra một cây thoả mãn tính chất là Binary Search Tree và test lại
     Tree* tr = new Tree();
