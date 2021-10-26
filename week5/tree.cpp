@@ -78,6 +78,7 @@ public:
     }
 
     // Các hàm tìm kiếm
+    // O(1) -> O(n)
     Node* find(Node* node, int data, Node* ans) {
         if (!node) return NULL;
         if (node->data == data) ans = node;
@@ -88,6 +89,7 @@ public:
         return ans;
     }
 
+    // O(1) -> O(n)
     Node* find(int data) {
         if (!root) return NULL;
         Node* tmp = root;
@@ -113,6 +115,7 @@ public:
     // Hàm thêm một Node vào cây
     // Hàm trả về false nếu Node cha không tồn tại trên cây
     // hoặc Node father đã có con là data
+    // // O(1) -> O(n)
     bool insert(int father, int data) {
         if (!root) {
             root = new Node(father, NULL);
